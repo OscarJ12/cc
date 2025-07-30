@@ -12,16 +12,15 @@
 
 /* Forward declarations */
 int function(void);
-void extdef(void);
 int statement(int d);
-int pexpr(void);
+int *pexpr(void);
 void pswitch(void);
 void blkhed(void);
-void blkend(void);
 void errflush(int o);
 void declist(void);
 int easystmt(void);
 void branch(int lab);
+int declare(int kw);
 
 /* External globals from c00.c */
 extern int eof;
@@ -46,81 +45,27 @@ extern int pssiz;
 extern int hshused;
 extern int stack;
 
-/* External functions from c00.c and c01.c */
+/* External functions from c00.c, c01.c, and c03.c */
 extern int symbol(void);
 extern void error(char *s, ...);
 extern int *tree(void);
-extern int *block(int n, int op, int t, int d, int *p1, int *p2, int *p3);
+extern int *block();
 extern int declare(int kw);
 
-/* Function stubs for missing functionality */
-void rcexpr(int *tree, int table) {
-    printf("DEBUG: rcexpr called with tree %p, table %d\n", tree, table);
-}
+/* Code generation functions from c03-mod.c */
+extern void rcexpr(int *tree_ptr, int table);
+extern void retseq(void);
+extern void jumpc(int *tree_ptr, int lab, int cond);
+extern void jump(int lab);
+extern void label(int l);
+extern void slabel(void);
+extern int length(int t);
+extern int rlength(int c);
+extern void setstk(int a);
+extern void defvec(int a);
+extern void defstat(int *s);
 
-void retseq(void) {
-    printf("jmp\tretrn\n");
-}
 
-void jumpc(int *tree, int lab, int cond) {
-    printf("DEBUG: jumpc to label %d, condition %d\n", lab, cond);
-}
-
-void jump(int lab) {
-    printf("jmp\tL%d\n", lab);
-}
-
-void label(int l) {
-    printf("L%d:\n", l);
-}
-
-void slabel(void) {
-    printf("DEBUG: slabel for symbol %p\n", csym);
-}
-
-int length(int t) {
-    if (t<0) t += 020;
-    if (t>=020) return(2);
-    switch(t) {
-    case 0: return(2);  /* int */
-    case 1: return(1);  /* char */
-    case 2: return(4);  /* float */
-    case 3: return(8);  /* double */
-    case 4: return(4);  /* long */
-    }
-    return(1024);
-}
-
-int rlength(int c) {
-    int l = length(c);
-    return((l==1)? 2: l);
-}
-
-void setstk(int a) {
-    printf("DEBUG: setstk %d\n", a);
-}
-
-void defvec(int a) {
-    printf("DEBUG: defvec %d\n", a);
-}
-
-void defstat(int *s) {
-    printf("DEBUG: defstat for symbol %p\n", s);
-}
-
-int function(void) {
-    printf("DEBUG: function() called\n");
-    printf(".text\n");
-    printf("mov\tr5,-(sp)\n");
-    printf("mov\tsp,r5\n");
-    
-    declare(8);  /* Parameter declarations */
-    declist();   /* Local declarations */
-    statement(1); /* Function body */
-    retseq();    /* Return sequence */
-    
-    return 0;
-}
 
 void extdef(void) {
     int o, c;
@@ -135,13 +80,13 @@ void extdef(void) {
     csym[0] = 6;  /* extern */
     cs = &csym[4];
     printf(".globl\t");
-    /* Print symbol name */
-    printf("\n");
+    /* Print symbol name - simplified for now */
+    printf("_symbol\n");
     
     switch(o=symbol()) {
 
     case 6:    /* ( - function definition */
-        printf(s, cs);
+        printf(s, (void*)cs);
         function();
         return;
 
@@ -165,7 +110,7 @@ void extdef(void) {
         }
         if(o!=5)    /* ] */
             goto syntax;
-        printf(s, cs);
+        printf(s, (void*)cs);
         if((o=symbol())==1) {    /* ; */
             printf(".bss; 1:.=.+%o\n", c);
             return;
@@ -195,6 +140,20 @@ syntax:
     error("External definition syntax");
     errflush(o);
     statement(0);
+}
+
+int function(void) {
+    printf("DEBUG: function() called\n");
+    printf(".text\n");
+    printf("mov\tr5,-(sp)\n");
+    printf("mov\tsp,r5\n");
+    
+    declare(8);  /* Parameter declarations */
+    declist();   /* Local declarations */
+    statement(1); /* Function body */
+    retseq();    /* Return sequence */
+    
+    return 0;
 }
 
 int statement(int d) {
@@ -241,10 +200,7 @@ stmt:
         /* return */
         case 11:
             if((peeksym=symbol())==6) {   /* ( */
-                /* rcexpr(pexpr(), regtab); */
-                printf("DEBUG: return with expression\n");
-            } else {
-                printf("DEBUG: return without expression\n");
+                rcexpr(pexpr(), 0);  /* regtab equivalent */
             }
             retseq();
             goto semi;
@@ -252,13 +208,15 @@ stmt:
         /* if */
         case 12:
             o1 = isn++;  /* Label for end of if */
-            printf("DEBUG: if statement, end label %d\n", o1);
-            /* jumpc(pexpr(), o1, 0); */
-            pexpr();  /* Parse condition */
+            jumpc(pexpr(), o1, 0);
             statement(0);  /* Then clause */
             if ((o=symbol())==19 && cval==14) {  /* else */
                 o2 = isn++;
-                printf("DEBUG: else clause, label %d\n", o2);
+                if (easystmt()) {
+                    branch(o2);
+                } else {
+                    jump(o2);
+                }
                 label(o1);
                 statement(0);
                 label(o2);
@@ -273,13 +231,14 @@ stmt:
             o1 = contlab;
             o2 = brklab;
             label(contlab = isn++);
-            printf("DEBUG: while loop, continue=%d, break=%d\n", contlab, isn);
-            /* jumpc(pexpr(), brklab=isn++, 0); */
-            pexpr();  /* Parse condition */
-            brklab = isn++;
+            jumpc(pexpr(), brklab=isn++, 0);
             o3 = easystmt();
             statement(0);
-            jump(contlab);
+            if (o3) {
+                branch(contlab);
+            } else {
+                jump(contlab);
+            }
             label(brklab);
             contlab = o1;
             brklab = o2;
@@ -310,8 +269,7 @@ stmt:
             label(contlab);
             contlab = o1;
             if ((o=symbol())==19 && cval==13) { /* while */
-                /* jumpc(tree(), o3, 1); */
-                printf("DEBUG: do-while condition\n");
+                jumpc(tree(), o3, 1);
                 label(brklab);
                 brklab = o2;
                 goto semi;
@@ -342,7 +300,10 @@ stmt:
             o1 = brklab;
             brklab = isn++;
             np = pexpr();
-            printf("DEBUG: switch statement\n");
+            if (np && np[1]>1 && np[1]<16)
+                error("Integer required");
+            if (np)
+                rcexpr(np, 0);  /* regtab equivalent */
             pswitch();
             brklab = o1;
             return 0;
@@ -380,8 +341,7 @@ stmt:
     }
 
     peeksym = o;
-    /* rcexpr(tree(), efftab); */
-    printf("DEBUG: expression statement\n");
+    rcexpr(tree(), 1);  /* efftab equivalent */
     goto semi;
 
 semi:
@@ -395,21 +355,20 @@ syntax:
     goto stmt;
 }
 
-int pexpr(void) {
+int *pexpr(void) {
     int o;
     int *t;
 
     if ((o=symbol())!=6)    /* ( */
         goto syntax;
-    /* t = tree(); */
-    printf("DEBUG: parsing parenthesized expression\n");
+    t = tree();
     if ((o=symbol())!=7)    /* ) */
         goto syntax;
-    return 0;  /* Should return t */
+    return t;
 syntax:
     error("Statement syntax");
     errflush(o);
-    return 0;
+    return NULL;
 }
 
 void pswitch(void) {
@@ -435,60 +394,6 @@ void pswitch(void) {
     printf("L%d; 0\n.text\n", deflab);
     deflab = dl;
     swp = sswp;
-}
-
-void blkhed(void) {
-    int o, al, pl;
-    int *cs;
-    int hl;
-
-    printf("DEBUG: blkhed() - block header processing\n");
-    declist();
-    stack = al = -2;
-    pl = 4;
-    
-    /* Process parameters */
-    while(paraml) {
-        *parame = 0;
-        paraml = *(cs = paraml);
-        cs[2] = pl;
-        *cs = 10;
-        pl += rlength(cs[1]);
-    }
-    
-    /* Process local variables */
-    cs = hshtab;
-    hl = hshsiz;
-    while(hl--) {
-        if (cs[4]) {
-            switch(cs[0]) {
-
-            case -2:    /* unmentioned */
-                cs[0] = 5;    /* auto */
-
-            case 5:     /* auto */
-                if (cs[3]) {    /* vector */
-                    al -= (cs[3]*length(cs[1]-020)+1) & 0177776;
-                    setstk(al);
-                    defvec(al);
-                }
-                cs[2] = al;
-                al -= rlength(cs[1]);
-                break;
-
-            case 10:    /* parameter */
-                cs[0] = 5;
-                break;
-
-            case 7:     /* static */
-                cs[2] = isn++;
-                defstat(cs);
-                break;
-            }
-        }
-        cs += pssiz;
-    }
-    setstk(al);
 }
 
 void blkend(void) {
@@ -537,6 +442,61 @@ int easystmt(void) {
         return(0);
     }
     return(peeksym!=2);    /* { */
+}
+
+void blkhed(void) {
+    int o, al, pl;
+    int *cs;
+    int hl;
+
+    printf("DEBUG: blkhed() - block header processing\n");
+    declist();
+    stack = al = -2;
+    pl = 4;
+    
+    /* Process parameters */
+    while(paraml) {
+        *parame = 0;
+        cs = paraml;
+        paraml = (int*)(intptr_t)(*paraml);  /* Fix pointer conversion */
+        cs[2] = pl;
+        *cs = 10;
+        pl += rlength(cs[1]);
+    }
+    
+    /* Process local variables */
+    cs = hshtab;
+    hl = hshsiz;
+    while(hl--) {
+        if (cs[4]) {
+            switch(cs[0]) {
+
+            case -2:    /* unmentioned */
+                cs[0] = 5;    /* auto */
+
+            case 5:     /* auto */
+                if (cs[3]) {    /* vector */
+                    al -= (cs[3]*length(cs[1]-020)+1) & 0177776;
+                    setstk(al);
+                    defvec(al);
+                }
+                cs[2] = al;
+                al -= rlength(cs[1]);
+                break;
+
+            case 10:    /* parameter */
+                cs[0] = 5;
+                break;
+
+            case 7:     /* static */
+                cs[2] = isn++;
+                defstat(cs);
+                break;
+            }
+        }
+        cs += pssiz;
+    }
+    setstk(al);
 }
 
 void branch(int lab) {
