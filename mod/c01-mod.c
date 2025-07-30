@@ -1,7 +1,7 @@
 /* C compiler - c01.c Expression Parser and AST Builder
  * 
  * Originally: Copyright 1972 Bell Telephone Laboratories, Inc.
- * Modernized for contemporary C compilers - Archaeological restoration
+ * Modernised for contemporary C compilers - Archaeological restoration
  * Designed to link with c00-mod.c
  */
 
