@@ -1,0 +1,58 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# Executables
+simple_c_compiler
+c00-mod
+unit_tests
+functional_test
+test_suite
+
+# Temporary and output files
+*.tmp
+*.s
+output.s
+temp.tmp
+mod_test_output.s
+mod_test.tmp
+perf_output.s
+perf_temp.tmp
+test_*.s
+test_*.tmp
+test_*.c
+test_temp.tmp
+
+# Editor files
+*~
+*.swp
+*.swo
+.vscode/
+.idea/
+*.sublime-*
+
+# OS files
+.DS_Store
+Thumbs.db
+*.log
+
+# Debug files
+*.dSYM/
+*.su
+*.gch
+*.pch
+
+# Memory check files
+vgcore.*
+core.*
+
+# Test generated files
+test_mem_*.s
+test_mem_*.tmp
+
+# Backup files
+*.bak
+*.orig
