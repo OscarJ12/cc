@@ -369,6 +369,12 @@ loop:
     default:
 unkn:
         error("Unknown character");
+        // Consume the next character to avoid infinite loop
+        c = getcc();
+        if (c == '\0' || c == '\004') {
+            eof++;
+            return 0;
+        }
         goto loop;
     }
 }
