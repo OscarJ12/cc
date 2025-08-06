@@ -1,10 +1,10 @@
 # 1972 C Compiler - Archaeological Restoration
 
-A modernized version of the original 1972 C compiler from Bell Labs, updated to compile and run on contemporary systems while preserving the original algorithms and functionality.
+A modernised version of the original 1972 C compiler from Bell Labs, updated to compile and run on contemporary systems while preserving the original algorithms and functionality.
 
 ##  Overview
 
-This project is an archaeological restoration of one of computing history's most important pieces of software - the original C compiler written by Dennis Ritchie and Ken Thompson at Bell Labs in 1972. The compiler has been carefully modernized to work with contemporary C compilers while maintaining the original algorithms, data structures, and programming techniques from the early days of C.
+This project is an archaeological restoration of one of computing history's most important pieces of software - the original C compiler written by Dennis Ritchie and Ken Thompson at Bell Labs in 1972. The compiler has been carefully modernised to work with contemporary C compilers while maintaining the original algorithms, data structures, and programming techniques from the early days of C.
 
 ##  Features
 
@@ -18,7 +18,7 @@ This project is an archaeological restoration of one of computing history's most
 
 The compiler consists of several modules, mirroring the original 1972 design:
 
-- **c00-mod.c** - Main lexical analyzer and symbol table management
+- **c00-mod.c** - Main lexical analyser and symbol table management
 - **c01-mod.c** - Expression parser and Abstract Syntax Tree builder
 - **c02-mod.c** - Statement parser and control flow analysis
 - **c03-mod.c** - Code generation and output
@@ -54,7 +54,7 @@ gcc -std=c99 -g simple_c_compiler.c -o simple_c_compiler
 ### Testing with 1972 C Code
 
 ```bash
-# Test the lexical analyzer with a 1972 C program
+# Test the lexical analyser with a 1972 C program
 ./simple_c_compiler test_1972.c
 ```
 
@@ -89,8 +89,8 @@ make check-syntax     # Check syntax of all modules
 ##  Project Structure
 
 ```
-├── mod/                    # Modernized compiler modules
-│   ├── c00-mod.c          # Main lexical analyzer
+├── mod/                    # Modernised compiler modules
+│   ├── c00-mod.c          # Main lexical analyser
 │   ├── c01-mod.c          # Expression parser
 │   ├── c02-mod.c          # Statement parser
 │   ├── c03-mod.c          # Code generation
@@ -98,7 +98,7 @@ make check-syntax     # Check syntax of all modules
 │   ├── c10-mod.c          # Second pass
 │   ├── regtab-mod.c       # Register templates
 │   └── test.c             # Example 1972 C program
-├── simple_c_compiler.c    # Simplified lexical analyzer demo
+├── simple_c_compiler.c    # Simplified lexical analyser demo
 ├── unit_tests.c           # Comprehensive unit test suite
 ├── functional_test.c      # Functional test suite
 ├── test_1972.c           # Example 1972 C program
@@ -107,7 +107,7 @@ make check-syntax     # Check syntax of all modules
 └── README.md             # This file
 ```
 
-## 🎓 Educational Use
+##  Educational Use
 
 This compiler is excellent for:
 
@@ -156,7 +156,7 @@ make                 # Build everything
 make test            # Run all tests
 make clean           # Clean build artifacts
 make check-syntax    # Verify syntax of all modules
-make analyze         # Run static analysis
+make analyse         # Run static analysis
 make help            # Show all available targets
 ```
 
