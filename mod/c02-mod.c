@@ -11,6 +11,7 @@
 #include <stdint.h>
 
 /* Forward declarations */
+extern int namsiz;
 int function(void);
 int statement(int d);
 int *pexpr(void);
@@ -70,7 +71,6 @@ extern void defstat(int *s);
 void extdef(void) {
     int o, c;
     int *cs;
-    char *s = ".data; %p:1f\n";
 
     if(((o=symbol())==0) || o==1)    /* EOF or ; */
         return;
@@ -79,26 +79,29 @@ void extdef(void) {
         
     csym[0] = 6;  /* extern */
     cs = &csym[4];
-    printf(".globl\t");
-    /* Print symbol name - simplified for now */
-    printf("_symbol\n");
+    printf(".globl\t_");
+    /* Print symbol name in PDP-11 assembly style */
+    for (int i = 0; i < namsiz && csym[4 + i]; ++i) putchar(csym[4 + i]);
+    putchar('\n');
     
     switch(o=symbol()) {
 
     case 6:    /* ( - function definition */
-        printf(s, (void*)cs);
+        printf("_"); for (int i = 0; i < namsiz && csym[4 + i]; ++i) putchar(csym[4 + i]); printf(":\n");
         function();
         return;
 
     case 21:   /* const - initialized variable */
-        printf(".data; ");
+        printf(".data; _");
+        for (int i = 0; i < namsiz && csym[4 + i]; ++i) putchar(csym[4 + i]);
         printf(": %o\n", cval);
         if((o=symbol())!=1)    /* ; */
             goto syntax;
         return;
 
     case 1:    /* ; - uninitialized variable */
-        printf(".bss; ");
+        printf(".bss; _");
+        for (int i = 0; i < namsiz && csym[4 + i]; ++i) putchar(csym[4 + i]);
         printf(": .=.+2\n");
         return;
 
@@ -110,7 +113,7 @@ void extdef(void) {
         }
         if(o!=5)    /* ] */
             goto syntax;
-        printf(s, (void*)cs);
+        printf("_"); for (int i = 0; i < namsiz && csym[4 + i]; ++i) putchar(csym[4 + i]); printf(":\n");
         if((o=symbol())==1) {    /* ; */
             printf(".bss; 1:.=.+%o\n", c);
             return;
@@ -129,7 +132,7 @@ void extdef(void) {
         goto syntax;
     done:
         if(c>0)
-            printf(".=.+%o\n", c);
+            printf(". = . + %o\n", c);
         return;
 
     case 0:    /* EOF */

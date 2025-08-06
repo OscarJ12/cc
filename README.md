@@ -1,32 +1,32 @@
-# 1972 C Compiler - Archaeological Restoration
+# 1972 C Compiler – Archaeological Restoration
 
 A modernised version of the original 1972 C compiler from Bell Labs, updated to compile and run on contemporary systems while preserving the original algorithms and functionality.
 
-##  Overview
+## Overview
 
-This project is an archaeological restoration of one of computing history's most important pieces of software - the original C compiler written by Dennis Ritchie and Ken Thompson at Bell Labs in 1972. The compiler has been carefully modernised to work with contemporary C compilers while maintaining the original algorithms, data structures, and programming techniques from the early days of C.
+This project is an archaeological restoration of one of the most significant pieces of software in computing history: the original C compiler written by Dennis Ritchie and Ken Thompson at Bell Labs in 1972. The compiler has been carefully modernised to work with contemporary C compilers, while maintaining the original algorithms, data structures, and programming techniques from the early days of C.
 
-##  Features
+## Features
 
 - **Historical Accuracy**: Preserves original 1972 algorithms and data structures
 - **Modern Compatibility**: Compiles and runs on modern Linux/Unix systems
 - **Complete Implementation**: All major compiler phases included
 - **Comprehensive Testing**: 71 automated tests covering all functionality
-- **Educational Value**: Excellent for studying compiler design and C language history
+- **Educational Value**: Suitable for studying compiler design and C language history
 
-##  Architecture
+## Architecture
 
 The compiler consists of several modules, mirroring the original 1972 design:
 
-- **c00-mod.c** - Main lexical analyser and symbol table management
-- **c01-mod.c** - Expression parser and Abstract Syntax Tree builder
-- **c02-mod.c** - Statement parser and control flow analysis
-- **c03-mod.c** - Code generation and output
-- **c0t-mod.c** - Compiler tables and data structures
-- **c10-mod.c** - Second pass code generator
-- **regtab-mod.c** - Register allocation templates
+- **c00-mod.c** – Main lexical analyser and symbol table management
+- **c01-mod.c** – Expression parser and Abstract Syntax Tree builder
+- **c02-mod.c** – Statement parser and control flow analysis
+- **c03-mod.c** – Code generation and output
+- **c0t-mod.c** – Compiler tables and data structures
+- **c10-mod.c** – Second pass code generator
+- **regtab-mod.c** – Register allocation templates
 
-##  Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -36,7 +36,7 @@ The compiler consists of several modules, mirroring the original 1972 design:
 
 ### Building
 
-```bash
+```sh
 # Clone the repository
 git clone https://github.com/OscarJ12/cc.git
 cd cc
@@ -53,19 +53,19 @@ gcc -std=c99 -g simple_c_compiler.c -o simple_c_compiler
 
 ### Testing with 1972 C Code
 
-```bash
-# Test the lexical analyser with a 1972 C program
+```sh
+# Test the lexical analyser with a 1972 C programme
 ./simple_c_compiler test_1972.c
 ```
 
-##  Testing
+## Testing
 
 The project includes a comprehensive test suite with 71 tests:
 
 - **Unit Tests (38 tests)**: Module compilation, code quality, standards compliance
 - **Functional Tests (33 tests)**: Core compiler functionality verification
 
-```bash
+```sh
 # Run all tests
 make test
 
@@ -77,16 +77,16 @@ make check-syntax     # Check syntax of all modules
 
 ### Test Results
 
- **ALL 71 TESTS PASS**
-- Module compilation: 7/7 ✅
-- Code structure: 3/3 ✅
-- C standards compliance: 3/3 ✅
-- Memory management: 3/3 ✅
-- File I/O operations: 3/3 ✅
-- Compiler features: 4/4 ✅
+**ALL 71 TESTS PASS**
+- Module compilation: 7/7
+- Code structure: 3/3
+- C standards compliance: 3/3
+- Memory management: 3/3
+- File I/O operations: 3/3
+- Compiler features: 4/4
 - And 48 more categories...
 
-##  Project Structure
+## Project Structure
 
 ```
 ├── mod/                    # Modernised compiler modules
@@ -97,28 +97,28 @@ make check-syntax     # Check syntax of all modules
 │   ├── c0t-mod.c          # Compiler tables
 │   ├── c10-mod.c          # Second pass
 │   ├── regtab-mod.c       # Register templates
-│   └── test.c             # Example 1972 C program
+│   └── test.c             # Example 1972 C programme
 ├── simple_c_compiler.c    # Simplified lexical analyser demo
 ├── unit_tests.c           # Comprehensive unit test suite
 ├── functional_test.c      # Functional test suite
-├── test_1972.c           # Example 1972 C program
-├── Makefile              # Build system
-├── TEST_REPORT.md        # Detailed test results
-└── README.md             # This file
+├── test_1972.c            # Example 1972 C programme
+├── Makefile               # Build system
+├── TEST_REPORT.md         # Detailed test results
+└── README.md              # This file
 ```
 
-##  Educational Use
+## Educational Use
 
-This compiler is excellent for:
+This compiler is suitable for:
 
 - **Computer Science Education**: Understanding compiler design principles
 - **Historical Research**: Studying the evolution of programming languages
 - **Language Design**: Learning from the simplicity and elegance of early C
 - **System Programming**: Understanding low-level programming techniques
 
-##  1972 C Language Features
+## 1972 C Language Features
 
-The original 1972 C language had these characteristics:
+The original 1972 C language had the following characteristics:
 
 - **Function Definitions**: `function(param) int param; { ... }`
 - **Auto Variables**: `auto x, y, z;`
@@ -127,10 +127,10 @@ The original 1972 C language had these characteristics:
 - **Pointers**: `*ptr`, `&variable`
 - **Arrays**: `array[index]`
 
-### Example 1972 C Program
+### Example 1972 C Programme
 
 ```c
-/* 1972 C factorial program */
+/* 1972 C factorial programme */
 fact(n)
 int n;
 {
@@ -147,29 +147,29 @@ main() {
 }
 ```
 
-##  Build Targets
+## Build Targets
 
-The Makefile provides numerous targets:
+The Makefile provides several targets:
 
-```bash
+```sh
 make                 # Build everything
 make test            # Run all tests
-make clean           # Clean build artifacts
+make clean           # Clean build artefacts
 make check-syntax    # Verify syntax of all modules
 make analyse         # Run static analysis
 make help            # Show all available targets
 ```
 
-##  Code Quality
+## Code Quality
 
 - **Total Lines**: 2,833 lines across all modules
 - **Test Coverage**: All major functions and algorithms tested
 - **Memory Safety**: Proper bounds checking and allocation patterns
 - **Documentation**: Extensive comments explaining 1972-era design decisions
 
-##  Contributing
+## Contributing
 
-Contributions are welcome! Areas for improvement:
+Contributions are welcome. Areas for improvement include:
 
 1. **Parser Enhancement**: Extend parsing for more 1972 C constructs
 2. **Code Generation**: Improve assembly output generation
@@ -177,7 +177,7 @@ Contributions are welcome! Areas for improvement:
 4. **Documentation**: Add more historical context and examples
 5. **Testing**: Add more edge cases and stress tests
 
-##  Historical Context
+## Historical Context
 
 This compiler represents the C language as it existed in 1972, before many modern features were added:
 
@@ -187,17 +187,17 @@ This compiler represents the C language as it existed in 1972, before many moder
 - Limited type system
 - PDP-11 assembly target
 
-##  Acknowledgments
+## Acknowledgements
 
-- **Dennis Ritchie** and **Ken Thompson** - Original C compiler authors
-- **Bell Labs** - Original development environment
+- **Dennis Ritchie** and **Ken Thompson** – Original C compiler authors
+- **Bell Labs** – Original development environment
 - The Unix and C programming communities
 
-##  License
+## Licence
 
 This project preserves the original Bell Labs copyright notices where applicable and is made available for educational and research purposes.
 
-##  Technical Details
+## Technical Details
 
 ### Symbol Table
 
@@ -205,11 +205,11 @@ Uses a hash table with linear probing for symbol lookup, exactly as in the origi
 
 ### Expression Parsing
 
-Implements operator precedence parsing with a precedence table (`opdope`) that defines operator behavior.
+Implements operator precedence parsing with a precedence table (`opdope`) that defines operator behaviour.
 
 ### Code Generation
 
-Generates intermediate code that would have targeted the PDP-11 architecture.
+Generates intermediate code that targets the PDP-11 architecture.
 
 ### Memory Management
 
@@ -217,6 +217,6 @@ Uses a fixed-size expression space allocation similar to the original compiler's
 
 ---
 
-**Historical Note**: This compiler represents computing archaeology - preserving and understanding the foundations upon which modern programming languages were built.
+**Historical Note**: This compiler is a work of computing archaeology, preserving and understanding the foundations upon which modern programming languages were built.
 
 For questions, issues, or contributions, please use the GitHub issue tracker.
