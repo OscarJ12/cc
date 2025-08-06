@@ -38,7 +38,7 @@ The compiler consists of several modules, mirroring the original 1972 design:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/1972-c-compiler.git
+git clone https://github.com/OscarJ12/1972-c-compiler.git
 cd 1972-c-compiler
 
 # Build everything
