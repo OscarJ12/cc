@@ -1,12 +1,12 @@
 # 1972 C Compiler - Archaeological Restoration
 
-A modernized version of the original 1972 C compiler from Bell Labs, updated to compile and run on contemporary systems while preserving the original algorithms and functionality.
+A modernised version of the original 1972 C compiler from Bell Labs, updated to compile and run on contemporary systems while preserving the original algorithms and functionality.
 
-## 🎯 Overview
+##  Overview
 
-This project is an archaeological restoration of one of computing history's most important pieces of software - the original C compiler written by Dennis Ritchie and Ken Thompson at Bell Labs in 1972. The compiler has been carefully modernized to work with contemporary C compilers while maintaining the original algorithms, data structures, and programming techniques from the early days of C.
+This project is an archaeological restoration of one of computing history's most important pieces of software - the original C compiler written by Dennis Ritchie and Ken Thompson at Bell Labs in 1972. The compiler has been carefully modernised to work with contemporary C compilers while maintaining the original algorithms, data structures, and programming techniques from the early days of C.
 
-## ✨ Features
+##  Features
 
 - **Historical Accuracy**: Preserves original 1972 algorithms and data structures
 - **Modern Compatibility**: Compiles and runs on modern Linux/Unix systems
@@ -14,11 +14,11 @@ This project is an archaeological restoration of one of computing history's most
 - **Comprehensive Testing**: 71 automated tests covering all functionality
 - **Educational Value**: Excellent for studying compiler design and C language history
 
-## 🏗️ Architecture
+##  Architecture
 
 The compiler consists of several modules, mirroring the original 1972 design:
 
-- **c00-mod.c** - Main lexical analyzer and symbol table management
+- **c00-mod.c** - Main lexical analyser and symbol table management
 - **c01-mod.c** - Expression parser and Abstract Syntax Tree builder
 - **c02-mod.c** - Statement parser and control flow analysis
 - **c03-mod.c** - Code generation and output
@@ -26,7 +26,7 @@ The compiler consists of several modules, mirroring the original 1972 design:
 - **c10-mod.c** - Second pass code generator
 - **regtab-mod.c** - Register allocation templates
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -38,8 +38,8 @@ The compiler consists of several modules, mirroring the original 1972 design:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/1972-c-compiler.git
-cd 1972-c-compiler
+git clone https://github.com/OscarJ12/cc.git
+cd cc
 
 # Build everything
 make
@@ -54,11 +54,11 @@ gcc -std=c99 -g simple_c_compiler.c -o simple_c_compiler
 ### Testing with 1972 C Code
 
 ```bash
-# Test the lexical analyzer with a 1972 C program
+# Test the lexical analyser with a 1972 C program
 ./simple_c_compiler test_1972.c
 ```
 
-## 📋 Testing
+##  Testing
 
 The project includes a comprehensive test suite with 71 tests:
 
@@ -77,7 +77,7 @@ make check-syntax     # Check syntax of all modules
 
 ### Test Results
 
-✅ **ALL 71 TESTS PASS**
+ **ALL 71 TESTS PASS**
 - Module compilation: 7/7 ✅
 - Code structure: 3/3 ✅
 - C standards compliance: 3/3 ✅
@@ -86,11 +86,11 @@ make check-syntax     # Check syntax of all modules
 - Compiler features: 4/4 ✅
 - And 48 more categories...
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
-├── mod/                    # Modernized compiler modules
-│   ├── c00-mod.c          # Main lexical analyzer
+├── mod/                    # Modernised compiler modules
+│   ├── c00-mod.c          # Main lexical analyser
 │   ├── c01-mod.c          # Expression parser
 │   ├── c02-mod.c          # Statement parser
 │   ├── c03-mod.c          # Code generation
@@ -98,7 +98,7 @@ make check-syntax     # Check syntax of all modules
 │   ├── c10-mod.c          # Second pass
 │   ├── regtab-mod.c       # Register templates
 │   └── test.c             # Example 1972 C program
-├── simple_c_compiler.c    # Simplified lexical analyzer demo
+├── simple_c_compiler.c    # Simplified lexical analyser demo
 ├── unit_tests.c           # Comprehensive unit test suite
 ├── functional_test.c      # Functional test suite
 ├── test_1972.c           # Example 1972 C program
@@ -107,7 +107,7 @@ make check-syntax     # Check syntax of all modules
 └── README.md             # This file
 ```
 
-## 🎓 Educational Use
+##  Educational Use
 
 This compiler is excellent for:
 
@@ -116,7 +116,7 @@ This compiler is excellent for:
 - **Language Design**: Learning from the simplicity and elegance of early C
 - **System Programming**: Understanding low-level programming techniques
 
-## 📖 1972 C Language Features
+##  1972 C Language Features
 
 The original 1972 C language had these characteristics:
 
@@ -147,7 +147,7 @@ main() {
 }
 ```
 
-## 🔧 Build Targets
+##  Build Targets
 
 The Makefile provides numerous targets:
 
@@ -156,18 +156,18 @@ make                 # Build everything
 make test            # Run all tests
 make clean           # Clean build artifacts
 make check-syntax    # Verify syntax of all modules
-make analyze         # Run static analysis
+make analyse         # Run static analysis
 make help            # Show all available targets
 ```
 
-## 📊 Code Quality
+##  Code Quality
 
 - **Total Lines**: 2,833 lines across all modules
 - **Test Coverage**: All major functions and algorithms tested
 - **Memory Safety**: Proper bounds checking and allocation patterns
 - **Documentation**: Extensive comments explaining 1972-era design decisions
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Areas for improvement:
 
@@ -177,7 +177,7 @@ Contributions are welcome! Areas for improvement:
 4. **Documentation**: Add more historical context and examples
 5. **Testing**: Add more edge cases and stress tests
 
-## 📜 Historical Context
+##  Historical Context
 
 This compiler represents the C language as it existed in 1972, before many modern features were added:
 
@@ -187,17 +187,17 @@ This compiler represents the C language as it existed in 1972, before many moder
 - Limited type system
 - PDP-11 assembly target
 
-## 🎖️ Acknowledgments
+##  Acknowledgments
 
 - **Dennis Ritchie** and **Ken Thompson** - Original C compiler authors
 - **Bell Labs** - Original development environment
 - The Unix and C programming communities
 
-## 📄 License
+##  License
 
 This project preserves the original Bell Labs copyright notices where applicable and is made available for educational and research purposes.
 
-## 🔍 Technical Details
+##  Technical Details
 
 ### Symbol Table
 
