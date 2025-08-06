@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <stdint.h>
 
 /* External globals from c00.c */
 extern int *space;
@@ -49,7 +50,9 @@ void cputchar(int c) {
 
 void jumpc(int *tree, int lbl, int cond) {
     /* Generate conditional jump based on tree evaluation */
-    rcexpr((int*)block(1, easystmt()+103, (intptr_t)tree, lbl, cond), 2); /* cctab */
+    /* Use a temporary variable for the cast to avoid syntax issues */
+    int temp_tree = (int)(intptr_t)tree;
+    rcexpr((int*)block(1, easystmt()+103, temp_tree, lbl, cond), 2); /* cctab */
 }
 
 void rcexpr(int *tree, int table) {
@@ -237,7 +240,4 @@ loop:
     goto loop;
 }
 
-/* Word output for intermediate code - now unused since rcexpr writes directly */
-void putwrd(int w) {
-    /* This function is now unused - rcexpr handles writing directly */
-}
+/* putwrd is defined in c0t-mod.c */

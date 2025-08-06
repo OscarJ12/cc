@@ -13,16 +13,17 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <stdint.h>
 
-/* Global variables from original */
-int nreg = 4;
-int isn = 10000;
-int namsiz = 8;
-int line;
-char *tmpfil;
-int nerror;
-int fltmod;
-int fin, fout;
+/* External global variables defined in c00-mod.c */
+extern int nreg;
+extern int isn;
+extern int namsiz;
+extern int line;
+extern char *tmpfil;
+extern int nerror;
+extern int fltmod;
+extern int fin, fout;
 
 /* External functions from regtab-mod.c */
 extern int generate_regtab_code(int opcode, int *operands, int op_count, int reg);
@@ -68,66 +69,7 @@ void waste(void) {
     /* Original recursive waste function - simplified */
 }
 
-int main(int argc, char *argv[]) {
-    int *sp, c, *table, *tabtab[4], *tree;
-    int *ospace_ptr;
-
-    if (argc < 4) {
-        error("Arg count");
-        exit(1);
-    }
-    
-    if ((fin = open(argv[1], O_RDONLY)) < 0) {
-        error("Can't find %s", argv[1]);
-        exit(1);
-    }
-    
-    if ((fout = open(argv[3], O_CREAT|O_WRONLY|O_TRUNC, 0644)) < 0) {
-        error("Can't create %s", argv[3]);
-        exit(1);
-    }
-    
-    tmpfil = argv[2];
-
-    /* Initialize tables */
-    init_real_regtab();  /* Initialize real 1972 templates */
-    init_tables();       /* Initialize simplified tables from c0t-mod.c */
-
-    /* Set up table pointers */
-    tabtab[0] = regtab;
-    tabtab[1] = efftab;
-    tabtab[2] = cctab;
-    tabtab[3] = sptab;
-    
-    /* Allocate expression space */
-    ospace_ptr = malloc(1000 * sizeof(int));
-    if (!ospace_ptr) {
-        error("Cannot allocate expression space");
-        exit(1);
-    }
-    
-    /* Main processing loop */
-    while ((c = getchar()) != EOF) {
-        if (c == '#') {
-            sp = ospace_ptr;
-            c = getwrd();           /* word count */
-            tree = (int*)(intptr_t)getwrd();  /* tree pointer - fixed cast */
-            table = tabtab[getwrd()]; /* table index */
-            line = getwrd();        /* line number */
-            
-            /* Read expression data */
-            while (c--)
-                *sp++ = getwrd();
-                
-            rcexpr(tree, table, 0);
-        } else {
-            cputchar(c);
-        }
-    }
-    
-    /* Flush output */
-    exit(nerror != 0);
-}
+/* Main function is in c00-mod.c - this module provides code generation functions */
 
 int match(int *tree, int *table, int nreg_param) {
     int op, d1, d2, t1, t2, *p1, *p2;
