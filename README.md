@@ -58,7 +58,7 @@ gcc -std=c99 -g simple_c_compiler.c -o simple_c_compiler
 ./simple_c_compiler test_1972.c
 ```
 
-## 📋 Testing
+##  Testing
 
 The project includes a comprehensive test suite with 71 tests:
 
